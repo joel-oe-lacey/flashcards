@@ -1,12 +1,11 @@
 const chai = require('chai');
 const expect = chai.expect;
 
+const Card = require('../src/Card');
 const Deck = require('../src/Deck');
 const Round = require('../src/Round');
-const Card = require('../src/Card');
 
 describe('Round', function() {
-
   it('should be a function', function() {
     const round = new Round();
     expect(Round).to.be.a('function');
@@ -24,9 +23,6 @@ describe('Round', function() {
     const deck = new Deck([card1, card2, card3]);
     const round = new Round(deck);
 
-    expect(deck.returnCurrentCard()).to.deep.equal(card1);
+    expect(round.currentCard).to.deep.equal(card1);
   });
-
-  
-
 });
