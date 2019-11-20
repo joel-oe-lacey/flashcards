@@ -19,7 +19,6 @@ describe('Round', function() {
 
   it('should have a count of the turns', function() {
     const round = new Round();
-
     expect(round.turn).to.equal(0);
   });
 
@@ -37,10 +36,9 @@ describe('Round', function() {
     const card1 = new Card(1, 'What allows you to define a set of related information using key-value pairs?', ['object', 'array', 'function'], 'object');
     const deck = new Deck([card1]);
     const round = new Round(deck);
-    const turn = new Turn('array', card1);
 
     expect(round.turn).to.equal(0);
-    round.takeTurn(turn);
+    round.takeTurn('array', card1);
     expect(round.turn).to.equal(1);
   });
 
@@ -49,10 +47,9 @@ describe('Round', function() {
     const card2 = new Card(2, 'What is a comma-separated list of related values?', ["array", "object", "function"], 'array');
     const deck = new Deck([card1, card2]);
     const round = new Round(deck);
-    const turn = new Turn('array', card1);
 
     expect(round.returnCurrentCard()).to.deep.equal(card1);
-    round.takeTurn(turn);
+    round.takeTurn('array', card1);
     expect(round.returnCurrentCard()).to.deep.equal(card2);
   });
 
@@ -60,22 +57,20 @@ describe('Round', function() {
     const card1 = new Card(1, 'What allows you to define a set of related information using key-value pairs?', ['object', 'array', 'function'], 'object');
     const deck = new Deck([card1]);
     const round = new Round(deck);
-    const turn = new Turn('array', card1);
 
     expect(round.incorrectGuesses).to.deep.equal([]);
-    round.takeTurn(turn);
+    round.takeTurn('array', card1);
     expect(round.incorrectGuesses).to.deep.equal(['array']);
   });
 
   it('should provide feedback on guess', function() {
     const card1 = new Card(1, 'What allows you to define a set of related information using key-value pairs?', ['object', 'array', 'function'], 'object');
-    const deck = new Deck([card1]);
+    const card2 = new Card(2, 'What is a comma-separated list of related values?', ["array", "object", "function"], 'array');
+    const deck = new Deck([card1, card2]);
     const round = new Round(deck);
-    const turn = new Turn('array', card1);
-    const turn2 = new Turn('object', card1);
 
-    expect(round.takeTurn(turn)).to.equal('incorrect!');
-    expect(round.takeTurn(turn2)).to.equal('correct!');
+    expect(round.takeTurn('array', card1)).to.equal('incorrect!');
+    expect(round.takeTurn('array', card2)).to.equal('correct!');
   });
 
   it('should calculate the percentage of guesses correct', function() {
@@ -85,15 +80,11 @@ describe('Round', function() {
     const card4 = new Card(4, 'What type of prototype method does not modify the existing array but returns a particular representation of the array?', ["mutator method", "accessor method", "iteration method"], "accessor method");
     const deck = new Deck([card1, card2, card3, card4]);
     const round = new Round(deck);
-    const turn = new Turn('array', card1);
-    const turn2 = new Turn('array', card2);
-    const turn3 = new Turn('mutator method', card3);
-    const turn4 = new Turn('mutator method', card4);
 
-    round.takeTurn(turn);
-    round.takeTurn(turn2);
-    round.takeTurn(turn3);
-    round.takeTurn(turn4);
+    round.takeTurn('array');
+    round.takeTurn('array');
+    round.takeTurn('mutator method');
+    round.takeTurn('mutator method');
     expect(round.calculatePercentCorrect()).to.equal(50);
   });
 
@@ -102,11 +93,9 @@ describe('Round', function() {
     const card2 = new Card(2, 'What is a comma-separated list of related values?', ["array", "object", "function"], 'array');
     const deck = new Deck([card1, card2]);
     const round = new Round(deck);
-    const turn = new Turn('array', card1);
-    const turn2 = new Turn('array', card2);
 
-    round.takeTurn(turn);
-    round.takeTurn(turn2);
+    round.takeTurn('array', card1);
+    round.takeTurn('array', card2);
     expect(round.endRound()).to.equal('** Round over! ** You answered 50% of the questions correctly!');
   });
 
