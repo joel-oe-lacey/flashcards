@@ -6,6 +6,7 @@ class Round {
     this.currentCard = this.cards[0];
     this.turn = 0;
     this.incorrectGuesses = [];
+    this.incorrectCards = [];
   }
 
   returnCurrentCard() {
@@ -17,25 +18,34 @@ class Round {
     const turn = new Turn(guess, this.currentCard);
     this.turn++;
     this.currentCard = this.cards[this.turn];
-    if(turn.evaluateGuess()) {
+    if (turn.evaluateGuess()) {
       return turn.giveFeedback();
-      } else {
+    } else {
+      this.incorrectCards.push(turn.card);
       this.incorrectGuesses.push(turn.guess);
       return turn.giveFeedback();
-      }
+    }
   }
 
   calculatePercentCorrect() {
     return (((this.turn - this.incorrectGuesses.length) / this.turn) * 100);
   }
 
+  incorrectRound() {
+    this.cards = this.incorrectCards;
+    this.incorrectGuesses = [];
+    this.incorrectCards = [];
+    this.turn = 0;
+    this.currentCard = this.cards[0];
+  }
+
   endRound(result) {
-    switch(result) {
-      case 'pass':
-        console.log(`** Round over! ** You passed with ${this.calculatePercentCorrect()}% of the questions answered correctly!`)
-        break;
+    switch (result) {
       case 'fail':
-        console.log(`** Round over! ** You answered ${this.calculatePercentCorrect()}% of the questions correctly! You need 90% to pass, please try again.`)
+        return `** Round over! ** You answered ${this.calculatePercentCorrect()}% of the questions correctly! You need 90% to pass, please try incorrect answers again.`;
+        break;
+      default:
+        return `** Round over! ** You passed with ${this.calculatePercentCorrect()}% of the questions answered correctly!`;
         break;
     }
   }

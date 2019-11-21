@@ -1,6 +1,6 @@
 const http = require('http');
 const Game = require('../src/Game');
-const util = require('../src/util.js');
+// const util = require('../src/util.js');
 
 let app = http.createServer();
 const game = new Game();
