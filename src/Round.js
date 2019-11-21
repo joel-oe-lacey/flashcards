@@ -12,24 +12,32 @@ class Round {
     return this.currentCard;
   }
 
+  //aren't calling takeTurn after last card so if condition never met.
   takeTurn(guess) {
     const turn = new Turn(guess, this.currentCard);
     this.turn++;
     this.currentCard = this.cards[this.turn];
     if(turn.evaluateGuess()) {
       return turn.giveFeedback();
-    } else {
+      } else {
       this.incorrectGuesses.push(turn.guess);
       return turn.giveFeedback();
-    }
+      }
   }
 
   calculatePercentCorrect() {
-    return ((this.incorrectGuesses.length / this.turn) * 100);
+    return (((this.turn - this.incorrectGuesses.length) / this.turn) * 100);
   }
 
-  endRound() {
-    return  `** Round over! ** You answered ${this.calculatePercentCorrect()}% of the questions correctly!`;
+  endRound(result) {
+    switch(result) {
+      case 'pass':
+        console.log(`** Round over! ** You passed with ${this.calculatePercentCorrect()}% of the questions answered correctly!`)
+        break;
+      case 'fail':
+        console.log(`** Round over! ** You answered ${this.calculatePercentCorrect()}% of the questions correctly! You need 90% to pass, please try again.`)
+        break;
+    }
   }
 }
 

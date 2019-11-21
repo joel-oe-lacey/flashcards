@@ -1,8 +1,10 @@
 const inquirer = require('inquirer');
+const Game = require('../src/Game');
+const game = new Game();
 
 const genList = (round) => {
   let card = round.returnCurrentCard();
-  
+
   let choices = card.answers.map((answer, index) => {
     return {
       key: index,
@@ -36,7 +38,12 @@ async function main(round) {
   const getConfirm = await inquirer.prompt(confirmUpdate(getAnswer.answers, round));
 
     if(!round.returnCurrentCard()) {
-      round.endRound();
+      if(round.calculatePercentCorrect() < 90) {
+        round.endRound('fail')''
+
+      } else {
+        round.endRound('pass');
+      }
     } else {
       main(round);
     }

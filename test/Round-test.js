@@ -82,10 +82,10 @@ describe('Round', function() {
     const round = new Round(deck);
 
     round.takeTurn('array');
-    round.takeTurn('array');
+    round.takeTurn('function');
     round.takeTurn('mutator method');
     round.takeTurn('mutator method');
-    expect(round.calculatePercentCorrect()).to.equal(50);
+    expect(round.calculatePercentCorrect()).to.equal(25);
   });
 
   it('should display an end round message', function() {
