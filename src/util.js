@@ -1,8 +1,9 @@
 const inquirer = require('inquirer');
+const Game = require('../src/Game');
 
 const genList = (round) => {
   let card = round.returnCurrentCard();
-  
+
   let choices = card.answers.map((answer, index) => {
     return {
       key: index,
@@ -29,17 +30,25 @@ const confirmUpdate = (id, round) => {
   }
 }
 
+//have to resolve the promise. getRound should do that
 async function main(round) {
 
   const currentRound = await getRound(round);
   const getAnswer = await inquirer.prompt(genList(currentRound));
   const getConfirm = await inquirer.prompt(confirmUpdate(getAnswer.answers, round));
 
-    if(!round.returnCurrentCard()) {
-      round.endRound();
-    } else {
+  if(!round.returnCurrentCard()) {
+    if(round.calculatePercentCorrect() < 90) {
+      console.log(round.endRound('fail'));
+      round.incorrectRound();
       main(round);
+    } else {
+      console.log(round.endRound('pass'));
+      process.exit();
     }
+  } else {
+    main(round);
+  }
 }
 
 module.exports.main = main;
