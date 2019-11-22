@@ -46,16 +46,16 @@ class Round {
   }
 
   endRound(result) {
+    const time = this.calculateTime();
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
     switch (result) {
-      case 'fail':
-        return `** Round over! ** You answered ${this.calculatePercentCorrect()}% of the questions correctly! You need 90% to pass, please try incorrect answers again.`;
-        break;
-      default:
-        const time = this.calculateTime();
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `** Round over! ** You passed with ${this.calculatePercentCorrect()}% of the questions answered correctly! You finished in ${minutes} minutes and ${seconds} seconds`;
-        break;
+    case 'fail':
+      return `** Round over! ** You answered ${this.calculatePercentCorrect()}% of the questions correctly! You need 90% to pass, please try incorrect answers again.`;
+      break;
+    default:
+      return `** Round over! ** You passed with ${this.calculatePercentCorrect()}% of the questions answered correctly! You finished in ${minutes} minutes and ${seconds} seconds`;
+      break;
     }
   }
 }

@@ -11,7 +11,7 @@ class Game {
 
   printMessage(deck) {
     return `Welcome to FlashCards! You are playing with ${deck.countCards()} cards.
------------------------------------------------------------------------`;
+    -----------------------------------------------------------------------`;
   }
 
   printQuestion(round) {
@@ -19,7 +19,7 @@ class Game {
   }
 
   start(evalCheck) {
-    if(evalCheck) {
+    if (evalCheck) {
       const deck = new Deck(prototypeQuestions);
       const round = new Round(deck);
       this.currentRound = round;
