@@ -9,22 +9,27 @@ class Game {
     this.currentRound;
   }
 
-  printMessage(deck, round) {
-      console.log(`Welcome to FlashCards! You are playing with ${deck.countCards()} cards.
------------------------------------------------------------------------`)
+  printMessage(deck) {
+    return `Welcome to FlashCards! You are playing with ${deck.countCards()} cards.
+-----------------------------------------------------------------------`;
   }
 
   printQuestion(round) {
-      util.main(round);
+    util.main(round);
   }
 
-  start() {
-    const deck = new Deck(prototypeQuestions);
-    const round = new Round(deck);
-    this.currentRound = round;
-
-    this.printMessage(deck, round);
-    this.printQuestion(round);
+  start(evalCheck) {
+    if(evalCheck) {
+      const deck = new Deck(prototypeQuestions);
+      const round = new Round(deck);
+      this.currentRound = round;
+    } else {
+      const deck = new Deck(prototypeQuestions);
+      const round = new Round(deck);
+      this.currentRound = round;
+      console.log(this.printMessage(deck));
+      this.printQuestion(round);
+    }
   }
 }
 

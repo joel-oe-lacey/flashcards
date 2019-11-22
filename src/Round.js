@@ -14,16 +14,16 @@ class Round {
     return this.currentCard;
   }
 
-  //aren't calling takeTurn after last card so if condition never met.
   takeTurn(guess) {
     const turn = new Turn(guess, this.currentCard);
     this.turn++;
-    this.currentCard = this.cards[this.turn];
     if (turn.evaluateGuess()) {
+      this.currentCard = this.cards[this.turn];
       return turn.giveFeedback();
     } else {
-      this.incorrectCards.push(turn.card);
-      this.incorrectGuesses.push(turn.guess);
+      this.incorrectCards.push(this.currentCard);
+      this.incorrectGuesses.push(guess);
+      this.currentCard = this.cards[this.turn];
       return turn.giveFeedback();
     }
   }
